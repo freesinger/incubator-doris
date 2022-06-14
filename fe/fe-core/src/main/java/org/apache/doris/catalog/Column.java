@@ -669,6 +669,9 @@ public class Column implements Writable {
             case VARCHAR:
                 sb.append(String.format(typeStringMap.get(dataType), getStrLen()));
                 break;
+            case JSON:
+                sb.append(String.format(typeStringMap.get(dataType), getStrLen()));
+                break;
             case DECIMALV2:
                 sb.append(String.format(typeStringMap.get(dataType), getPrecision(), getScale()));
                 break;
