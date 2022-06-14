@@ -163,6 +163,8 @@ public class ScalarFunction extends Function {
                 case QUANTILE_STATE:
                     beFn += "_string_val";
                     break;
+                case JSON:
+                    beFn += "json_val";
                 case DATE:
                 case DATETIME:
                     beFn += "_datetime_val";
@@ -234,6 +236,9 @@ public class ScalarFunction extends Function {
                 case HLL:
                 case BITMAP:
                     beFn.append("_string_val");
+                    break;
+                case JSON:
+                    beFn.append("_json_val");
                     break;
                 case DATE:
                 case DATETIME:
