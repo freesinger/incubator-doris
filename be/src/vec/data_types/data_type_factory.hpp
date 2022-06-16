@@ -37,6 +37,7 @@
 #include "vec/data_types/data_type_nullable.h"
 #include "vec/data_types/data_type_number.h"
 #include "vec/data_types/data_type_string.h"
+#include "vec/data_types/data_type_json.h"
 
 namespace doris::vectorized {
 
@@ -65,7 +66,7 @@ public:
                     {"DateTime", std::make_shared<DataTypeDateTime>()},
                     {"String", std::make_shared<DataTypeString>()},
                     {"Decimal", std::make_shared<DataTypeDecimal<Decimal128>>(27, 9)},
-
+                    {"Json", std::make_shared<DataTypeJson>()},
             };
             for (auto const& [key, val] : base_type_map) {
                 instance.register_data_type(key, val);
