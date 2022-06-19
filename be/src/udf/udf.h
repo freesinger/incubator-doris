@@ -87,7 +87,8 @@ public:
         TYPE_DECIMALV2,
         TYPE_OBJECT,
         TYPE_ARRAY,
-        TYPE_QUANTILE_STATE
+        TYPE_QUANTILE_STATE,
+        TYPE_JSON
     };
 
     struct TypeDesc {
