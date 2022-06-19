@@ -877,7 +877,8 @@ void DefaultValueColumnIterator::insert_default_data(vectorized::MutableColumnPt
     }
     case OLAP_FIELD_TYPE_STRING:
     case OLAP_FIELD_TYPE_VARCHAR:
-    case OLAP_FIELD_TYPE_CHAR: {
+    case OLAP_FIELD_TYPE_CHAR:
+    case OLAP_FIELD_TYPE_JSON: {
         data_ptr = ((Slice*)_mem_value)->data;
         data_len = ((Slice*)_mem_value)->size;
         insert_column_data();
