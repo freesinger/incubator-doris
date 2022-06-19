@@ -282,6 +282,25 @@ Status RowBlockV2::_copy_data_to_column(int cid,
         }
         break;
     }
+    case OLAP_FIELD_TYPE_JSON: {
+        auto json_string = assert_cast<vectorized::ColumnJson*>(column);
+        size_t limit = config::json_type_length_soft_limit_bytes;
+        for (uint16_t j = 0; j < _selected_size; ++j) {
+            if (!nullable_mark_array[j]) {
+                uint16_t row_idx = _selection_vector[j];
+                auto slice = reinterpret_cast<const Slice*>(column_block(cid).cell_ptr(row_idx));
+                if (LIKELY(slice->size <= limit)) {
+                    json_string->insert_data(slice->data, slice->size);
+                } else { 
+                    return Status::NotSupported(fmt::format(
+                            "Not support json len over than {} in vec engine.", limit));
+                }
+            } else {
+                json_string->insert_default();
+            }
+        }
+        break;
+    }
     case OLAP_FIELD_TYPE_ARRAY: {
         auto column_array = assert_cast<vectorized::ColumnArray*>(column);
         auto nested_col = (*column_array->get_data_ptr()).assume_mutable();
