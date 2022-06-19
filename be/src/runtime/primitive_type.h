@@ -19,8 +19,10 @@
 
 #include <string>
 
+#include "json_value.h"
 #include "vec/columns/column_decimal.h"
 #include "vec/columns/columns_number.h"
+#include "vec/columns/column_json.h"
 #include "vec/core/types.h"
 
 namespace doris {
@@ -58,10 +60,11 @@ enum PrimitiveType {
     TYPE_HLL,       /* 19 */
     TYPE_DECIMALV2, /* 20 */
 
-    TYPE_TIME,          /* 21 */
-    TYPE_OBJECT,        /* 22 */
-    TYPE_STRING,        /* 23 */
-    TYPE_QUANTILE_STATE /* 24 */
+    TYPE_TIME,           /* 21 */
+    TYPE_OBJECT,         /* 22 */
+    TYPE_STRING,         /* 23 */
+    TYPE_QUANTILE_STATE, /* 24 */
+    TYPE_JSON            /* 25 */ 
 };
 
 PrimitiveType convert_type_to_primitive(FunctionContext::Type type);
@@ -165,6 +168,12 @@ template <>
 struct PrimitiveTypeTraits<TYPE_STRING> {
     using CppType = StringValue;
     using ColumnType = vectorized::ColumnString;
+};
+
+template <>
+struct PrimitiveTypeTraits<TYPE_JSON> {
+    using CppType = JsonValue;
+    using ColumnType = vectorized::ColumnJson;
 };
 
 // only for adapt get_predicate_column_ptr
