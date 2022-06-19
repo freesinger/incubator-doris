@@ -37,6 +37,7 @@ import org.apache.doris.load.sync.SyncJob;
 import org.apache.doris.load.sync.canal.CanalSyncJob;
 import org.apache.doris.policy.Policy;
 import org.apache.doris.policy.RowPolicy;
+import org.apache.doris.policy.StoragePolicy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
@@ -94,7 +95,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GsonUtils {
 
     // runtime adapter for class "Type"
-    private static RuntimeTypeAdapterFactory<org.apache.doris.catalog.Type> columnTypeAdapterFactory = RuntimeTypeAdapterFactory
+    private static RuntimeTypeAdapterFactory<org.apache.doris.catalog.Type> columnTypeAdapterFactory
+            = RuntimeTypeAdapterFactory
             .of(org.apache.doris.catalog.Type.class, "clazz")
             // TODO: register other sub type after Doris support more types.
             .registerSubtype(ScalarType.class, ScalarType.class.getSimpleName())
@@ -103,7 +105,8 @@ public class GsonUtils {
             .registerSubtype(StructType.class, StructType.class.getSimpleName());
 
     // runtime adapter for class "DistributionInfo"
-    private static RuntimeTypeAdapterFactory<DistributionInfo> distributionInfoTypeAdapterFactory = RuntimeTypeAdapterFactory
+    private static RuntimeTypeAdapterFactory<DistributionInfo> distributionInfoTypeAdapterFactory
+            = RuntimeTypeAdapterFactory
             .of(DistributionInfo.class, "clazz")
             .registerSubtype(HashDistributionInfo.class, HashDistributionInfo.class.getSimpleName())
             .registerSubtype(RandomDistributionInfo.class, RandomDistributionInfo.class.getSimpleName());
@@ -136,7 +139,8 @@ public class GsonUtils {
     // runtime adapter for class "Policy"
     private static RuntimeTypeAdapterFactory<Policy> policyTypeAdapterFactory = RuntimeTypeAdapterFactory
             .of(Policy.class, "clazz")
-            .registerSubtype(RowPolicy.class, RowPolicy.class.getSimpleName());
+            .registerSubtype(RowPolicy.class, RowPolicy.class.getSimpleName())
+            .registerSubtype(StoragePolicy.class, StoragePolicy.class.getSimpleName());
 
     // the builder of GSON instance.
     // Add any other adapters if necessary.
@@ -381,7 +385,7 @@ public class GsonUtils {
         }
     }
 
-    public final static class ImmutableMapDeserializer implements JsonDeserializer<ImmutableMap<?, ?>> {
+    public static final class ImmutableMapDeserializer implements JsonDeserializer<ImmutableMap<?, ?>> {
         @Override
         public ImmutableMap<?, ?> deserialize(final JsonElement json, final Type type,
                                              final JsonDeserializationContext context) throws JsonParseException {

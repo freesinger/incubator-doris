@@ -64,11 +64,11 @@ BE 的配置项有两种方式进行配置：
 
 ## 应用举例
 
-1. 静态方式修改 `max_compaction_concurrency`
+1. 静态方式修改 `max_base_compaction_concurrency`
 
   通过在 `be.conf` 文件中添加：
 
-  ```max_compaction_concurrency=5```
+  ```max_base_compaction_concurrency=5```
 
   之后重启 BE 进程以生效该配置。
 
@@ -546,6 +546,12 @@ CumulativeCompaction会跳过最近发布的增量，以防止压缩可能被查
 
 用于向前兼容，稍后将被删除
 
+### `enable_stream_load_record`
+
+默认值：false
+
+是否开启 stream load 操作记录，默认是不启用
+
 ### `es_http_timeout_ms`
 
 默认值：5000 (ms)
@@ -731,10 +737,16 @@ load错误日志将在此时间后删除
 
 每个主机的最大客户端缓存数，BE 中有多种客户端缓存，但目前我们使用相同的缓存大小配置。 如有必要，使用不同的配置来设置不同的客户端缓存。
 
-### `max_compaction_threads`
+### `max_base_compaction_threads`
 
 * 类型：int32
-* 描述：Compaction线程池中线程数量的最大值。
+* 描述：Base Compaction线程池中线程数量的最大值。
+* 默认值：4
+
+### `max_cumu_compaction_threads`
+
+* 类型：int32
+* 描述：Cumulative Compaction线程池中线程数量的最大值。
 * 默认值：10
 
 ### `max_consumer_num_per_group`

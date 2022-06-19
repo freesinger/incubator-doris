@@ -174,7 +174,6 @@ public class PolicyMgr implements Writable {
     }
 
     private void unprotectedDrop(DropPolicyLog log) {
-        long dbId = log.getDbId();
         List<Policy> policies = getPoliciesByType(log.getType());
         policies.removeIf(policy -> policy.matchPolicy(log));
         typeToPolicyMap.put(log.getType(), policies);
@@ -208,6 +207,9 @@ public class PolicyMgr implements Writable {
         long currentDbId = ConnectContext.get().getCurrentDbId();
         Policy checkedPolicy = null;
         switch (showStmt.getType()) {
+            case STORAGE:
+                checkedPolicy = new StoragePolicy();
+                break;
             case ROW:
             default:
                 RowPolicy rowPolicy = new RowPolicy();

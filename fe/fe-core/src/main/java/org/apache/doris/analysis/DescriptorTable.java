@@ -41,7 +41,7 @@ import java.util.List;
  * them unique ids..
  */
 public class DescriptorTable {
-    private final static Logger LOG = LogManager.getLogger(DescriptorTable.class);
+    private static final Logger LOG = LogManager.getLogger(DescriptorTable.class);
 
     private final HashMap<TupleId, TupleDescriptor> tupleDescs = new HashMap<TupleId, TupleDescriptor>();
     // List of referenced tables with no associated TupleDescriptor to ship to the BE.
@@ -68,6 +68,16 @@ public class DescriptorTable {
 
     public SlotDescriptor addSlotDescriptor(TupleDescriptor d) {
         SlotDescriptor result = new SlotDescriptor(slotIdGenerator.getNextId(), d);
+        d.addSlot(result);
+        slotDescs.put(result.getId(), result);
+        return result;
+    }
+
+    /**
+     * Used by new optimizer.
+     */
+    public SlotDescriptor addSlotDescriptor(TupleDescriptor d, int id) {
+        SlotDescriptor result = new SlotDescriptor(new SlotId(id), d);
         d.addSlot(result);
         slotDescs.put(result.getId(), result);
         return result;

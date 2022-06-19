@@ -385,7 +385,8 @@ public class CreateTableStmt extends DdlStmt {
 
             if (columnDef.getType().isArrayType()) {
                 if (columnDef.getAggregateType() != null && columnDef.getAggregateType() != AggregateType.NONE) {
-                    throw new AnalysisException("Array column can't support aggregation " + columnDef.getAggregateType());
+                    throw new AnalysisException("Array column can't support aggregation "
+                            + columnDef.getAggregateType());
                 }
                 if (columnDef.isKey()) {
                     throw new AnalysisException("Array can only be used in the non-key column of"
@@ -413,7 +414,8 @@ public class CreateTableStmt extends DdlStmt {
                 if (partitionDesc instanceof ListPartitionDesc || partitionDesc instanceof RangePartitionDesc) {
                     partitionDesc.analyze(columnDefs, properties);
                 } else {
-                    throw new AnalysisException("Currently only support range and list partition with engine type olap");
+                    throw new AnalysisException("Currently only support range"
+                            + " and list partition with engine type olap");
                 }
 
             }
