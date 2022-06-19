@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "util/binary_cast.hpp"
+#include "util/jsonb_document.h"
 
 namespace doris {
 
@@ -74,6 +75,7 @@ enum class TypeIndex {
     LowCardinality,
     BitMap,
     HLL,
+    JSON,
 };
 
 struct Consted {
@@ -193,6 +195,10 @@ struct TypeName<BitmapValue> {
 template <>
 struct TypeName<HyperLogLog> {
     static const char* get() { return "HLL"; }
+};
+template <>
+struct TypeName<JsonbDocument> {
+    static const char* get() { return "JSON"; }
 };
 
 template <typename T>
@@ -437,6 +443,8 @@ inline const char* getTypeName(TypeIndex idx) {
         return TypeName<BitmapValue>::get();
     case TypeIndex::HLL:
         return TypeName<HyperLogLog>::get();
+    case TypeIndex::JSON:
+        return TypeName<JsonbDocument>::get();
     }
 
     __builtin_unreachable();
