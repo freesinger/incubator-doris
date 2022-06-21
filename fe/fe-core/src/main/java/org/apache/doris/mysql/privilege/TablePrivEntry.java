@@ -57,8 +57,6 @@ public class TablePrivEntry extends DbPrivEntry {
         PatternMatcher dbPattern = PatternMatcher.createFlatPattern(
                 db, CaseSensibility.DATABASE.getCaseSensibility(), db.equals(ANY_DB));
         PatternMatcher userPattern = PatternMatcher.createFlatPattern(user, CaseSensibility.USER.getCaseSensibility());
-        PatternMatcher ctlPattern = PatternMatcher.createFlatPattern(
-                ctl, CaseSensibility.CATALOG.getCaseSensibility(), ctl.equals(ANY_CTL));
 
         PatternMatcher tblPattern = PatternMatcher.createFlatPattern(
                 tbl, CaseSensibility.TABLE.getCaseSensibility(), tbl.equals(ANY_TBL));
